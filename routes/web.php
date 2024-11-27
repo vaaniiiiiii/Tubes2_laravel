@@ -9,6 +9,8 @@ use App\Http\Controllers\unggahController;
 use App\Http\Controllers\editProfilController;
 use App\Http\Controllers\pengaturanController;
 use App\Http\Middleware\AuthMiddleware;
+use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +23,7 @@ use App\Http\Middleware\AuthMiddleware;
 |
 */
 
+
 Route::get('/login', [loginController::class, 'index'])->name('login');
 // Route::get('/login/create', [loginController::class, 'create']);
 Route::post('/login', [loginController::class, 'login']);
@@ -32,6 +35,14 @@ Route::post('/daftar', [daftarController::class, 'register'])->name('daftar');
 
 Route::middleware(AuthMiddleware::class)->group(function () {
     Route::get('/', [videoController::class, 'index'])->name('beranda');
+
+    // Route::get('/', [VideoController::class, 'index'])->name('beranda')
+    // ->middleware('auth'); Auth::routes();
+
+// Route::get('/logout', [loginController::class, 'logout'])->name('logout');
+
+    // Route::get('/', function () { return view('beranda'); }); 
+    // Route::get('/next-page', function () { return view('next');
 
     // Route::get('/profil', function () {
     //     return view('profil');
@@ -59,8 +70,6 @@ Route::middleware(AuthMiddleware::class)->group(function () {
     Route::post('/profil', [profilController::class, 'store']);
     Route::get('/editProfil', [profilController::class, 'show'])->name('profile.show');
     Route::post('/profile', [profilController::class, 'update'])->name('profile.update');
-
-
 
     Route::get('/pengaturan', [pengaturanController::class, 'index'])->name('pengaturan');
     Route::delete('/deleteAkun', [pengaturanController::class, 'delete'])->name('deleteAccount');
